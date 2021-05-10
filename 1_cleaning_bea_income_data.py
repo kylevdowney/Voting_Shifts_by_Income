@@ -49,11 +49,11 @@ for i, col in enumerate(bea_data_trim.columns):
 #This dictionary will be used to turn the five seperate columns into a column
 #with one common name which will later be stacked on top of each other
 
-changing_columns = {"2000" : "Per_Capita_Income",
-                    "2004" : "Per_Capita_Income",
-                    "2008" : "Per_Capita_Income",
-                    "2012" : "Per_Capita_Income",
-                    "2016" : "Per_Capita_Income"
+changing_columns = {"2000" : "income",
+                    "2004" : "income",
+                    "2008" : "income",
+                    "2012" : "income",
+                    "2016" : "income"
                     }
 
 #%%
@@ -66,6 +66,9 @@ year2000_income = bea_data_trim[["GEOID",
                               "2000"]].copy()
 year2000_income = year2000_income.rename(changing_columns, axis = "columns")
 year2000_income["year"] = "2000"
+#year2000_income = year_2000_income_df.query("")
+#year2000_income["2000"] = year2000_income["2000"].astype(float)
+#year2000_income["income"] = year2000_income["2000"] * 1.55
 
 
 #%%
@@ -128,7 +131,7 @@ stacked_data = pd.concat(five_elections).reset_index(drop=True)
 for i, col in enumerate(stacked_data.columns):
     stacked_data.iloc[:, i] = stacked_data.iloc[:, i].str.replace(' ', '')
 
-cleaned_data = stacked_data.query("Per_Capita_Income != '(NA)'")
+cleaned_data = stacked_data.query("income != '(NA)'")
 tidied_up_data = cleaned_data.query("GeoName != 'United States'")
 tidied_up_data.to_csv("per_capita_income_2000-2016.csv")
 

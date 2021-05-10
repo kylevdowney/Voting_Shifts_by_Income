@@ -12,12 +12,12 @@ from itertools import tee, islice, chain #, izip
 #clean up the voting data into something useful which can then be joined
 #with a map of counties and the cleaned up BEA data from script 1
 
-fix_dtype = {"Median Income" : int, 
-             "FIPS": str, 
+fix_dtype = {"FIPS": str, 
              "GEOID" : str, 
              "year" : str, 
              "party" : str, 
-             "state_po" : str}
+             "state_po" : str,
+             "income" : int}
 
 
 election_results = pd.read_csv("countypres_2000-2016_(3).csv", dtype = fix_dtype)
@@ -63,13 +63,24 @@ master_df.set_index("GEOID", inplace = True)
 
 counties = geopandas.read_file("tl_2016_us_county.shp", dtype = fix_dtype)
 
-#break the master dataframe into five pieces for editing and mapping
+#break the master dataframe into five pieces for editing and mapping, adjust
+#the income for inflation to match 2021 dollars
 
 year2000_election = master_df.query("year == '2000'").copy()
+year2000_election["inflation adjusted income"] = year2000_election["income"] * 1.55
+
+
 year2004_election = master_df.query("year == '2004'").copy()
+year2004_election["inflation adjusted income"] = year2004_election["income"] * 1.41
+
 year2008_election = master_df.query("year == '2008'").copy()
+year2008_election["inflation adjusted income"] = year2008_election["income"] * 1.25
+
 year2012_election = master_df.query("year == '2012'").copy()
+year2012_election["inflation adjusted income"] = year2012_election["income"] * 1.15
+
 year2016_election = master_df.query("year == '2016'").copy()
+year2016_election["inflation adjusted income"] = year2016_election["income"] * 1.09
 #year2016_election.set_index("GEOID", inplace = True)
 
 #%%

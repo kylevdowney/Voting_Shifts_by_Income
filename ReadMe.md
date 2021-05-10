@@ -62,7 +62,7 @@ This ended up not being used in this analysis but is a useful piece of data for 
 
 11. Read in the shapefile
 
-12.  Break down the newly created master dataframe into five pieces, then put them in a list.
+12.  Break down the newly created master dataframe into five pieces, then put them in a list, create a new column for each that adjusts income for inflation to 2021 dollars.
 
 13.  Create a new series that will be used to track voting consistency
 

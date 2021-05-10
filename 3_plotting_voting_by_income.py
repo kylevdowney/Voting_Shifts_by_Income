@@ -5,7 +5,7 @@ import seaborn as sns
 #here we want to take the bundled together data from the master_df compiled in
 #the last script, adjust income for inflation for intuitive graphs.  
 
-final_dtype = {"Per_Capita_Income" : int, 
+final_dtype = {"inflation adjusted income" : float, 
                "year" : int, 
                "swing_counties" : str} #(do I want to keep year as int?)
 
@@ -34,11 +34,11 @@ stable_counties.to_csv("stable_counties.csv")
 #
 party_colors = {"democrat" : "blue",
                "republican" : "red"}
-#elections = master_df.query("year == '2000' or year == '2004' or year == '2008' or year == '2012' or year == '2016'")
+
 fig, ax1 = plt.subplots(dpi=300)
-sns.violinplot(data=master_df,x="year",y="Per_Capita_Income",hue="party",split=True, palette=party_colors)
+sns.violinplot(data=master_df,x="year",y="inflation adjusted income",hue="party",split=True, palette=party_colors)
 ax1.set_title("Party Preference by Income (Entire Country)")
-ax1.set_ylabel("Per Capita Income")
+ax1.set_ylabel("inflation adjusted income")
 fig.tight_layout()
 fig.savefig('US_voting_by_income_violin_chart.png')
 
@@ -46,18 +46,18 @@ fig.savefig('US_voting_by_income_violin_chart.png')
 #%% Violin plots just for the swing counties
 
 fig, ax1 = plt.subplots(dpi=300)
-sns.violinplot(data=swing_counties,x="year",y="Per_Capita_Income",hue="party",split=True, palette=party_colors)
+sns.violinplot(data=swing_counties,x="year",y="inflation adjusted income",hue="party",split=True, palette=party_colors)
 ax1.set_title("Party Preference by Income (Swing Counties)")
-ax1.set_ylabel("Per Capita Income")
+ax1.set_ylabel("inflation adjusted income")
 fig.tight_layout()
 fig.savefig('swing_county_voting_by_income_violin_chart.png')
 
 #%% Violin plots just for the stable counties
 
 fig, ax1 = plt.subplots(dpi=300)
-sns.violinplot(data=stable_counties,x="year",y="Per_Capita_Income",hue="party",split=True, palette=party_colors)
+sns.violinplot(data=stable_counties,x="year",y="inflation adjusted income",hue="party",split=True, palette=party_colors)
 ax1.set_title("Party Preference by Income (Stable Counties)")
-ax1.set_ylabel("Per Capita Income")
+ax1.set_ylabel("inflation adjusted income")
 fig.tight_layout()
 fig.savefig('stable_county_voting_by_income_violin_chart.png')
 
@@ -68,8 +68,8 @@ stable_and_swing = pd.concat(both_df).reset_index(drop=True)
 stable_and_swing.unstack()
 
 fig, ax1 = plt.subplots(dpi=300)
-sns.lineplot(data=stable_and_swing,x="year",y="Per_Capita_Income", hue = "type")
+sns.lineplot(data=stable_and_swing,x="year",y="inflation adjusted income", hue = "type")
 ax1.set_title("US Income Growth (disaggregated)")
-ax1.set_ylabel("Per Capita Income")
+ax1.set_ylabel("Income")
 fig.savefig('US_Income_Growth_(disaggregated).png')
 
